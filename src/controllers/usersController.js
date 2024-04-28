@@ -1,6 +1,7 @@
 const usersDB = require("../db/usersApp");
 
 async function getAllUsers(req, res) {
+    
     try {
         const users = await usersDB.getAllUsers();
         res.json(users);

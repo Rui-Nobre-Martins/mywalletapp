@@ -27,6 +27,7 @@ async function getUserById(id) {
 
 async function insertUser(username, email, password) {
     const params = [ username, email, password ];
+
     try {
         const [result] = await connection.promise().query(`INSERT INTO users (username, email, password) VALUES( ?, ?, ?)`, params);
         return result;
@@ -38,6 +39,7 @@ async function insertUser(username, email, password) {
 
 async function updateUser(id, username, email, password) {
     const params = [username, email, password, id]; 
+    
     try {
         const[result] = await connection.promise().query(`UPDATE users SET username = ?, email = ?, password = ? WHERE id = ? `, params);
         return result;

@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const usersRouter = require("./routers/usersRouter");
+const walletRouter = require("./routers/walletRouter");
+
 
 
 const app = express();
@@ -12,7 +14,8 @@ app.use(express.json());
 
 
 app.use("/", usersRouter);
-// app.use("/wallet", walletRouter);
+app.use("/wallet", walletRouter);
+
 // app.use("/transactions", transactionsRouter);
 
 
