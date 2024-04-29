@@ -37,7 +37,7 @@ async function getTransactionById(id) {
     }
 }
 
-async function insertTransaction( amount, description ) {
+async function insertTransaction( user_id, amount, description ) {
     const params = [ user_id, amount, description ];
 
     try {
@@ -49,11 +49,11 @@ async function insertTransaction( amount, description ) {
     }
 }
 
-async function updatetransaction(id, user_id, amount, description ) {
-    const params = [ user_id, amount, description, id ]; 
+async function updatetransaction(id, amount, description ) {
+    const params = [ amount, description, id ]; 
     
     try {
-        const[result] = await connection.promise().query(`UPDATE users SET user_id = ?, amount = ?, description = ? WHERE id = ? `, params);
+        const[result] = await connection.promise().query(`UPDATE transactions SET amount = ?, description = ? WHERE id = ? `, params);
         return result;
     } catch(error) {
         console.log(error);

@@ -43,10 +43,10 @@ async function postTransactions(req, res) {
 
 async function putTransactions(req, res) {
     const { id } = req.params;
-    const { user_id, amount, description } = req.body;
+    const { amount, description } = req.body;
 
     try {
-        const result = await transactionDB.updatetransaction( id, user_id, amount, description );
+        const result = await transactionDB.updatetransaction( id, amount, description );
         if(result.affectedRows === 1) {
             const putTransactions = await transactionDB.getTransactionById(id);
             res.json(putTransactions);
@@ -62,7 +62,7 @@ async function deleteTransactions(req, res) {
     const { id } = req.params;
 
     try {
-        const result = await transactionDB.deleteUser(id);
+        const result = await transactionDB.deleteTransaction(id);
         if (result.affectedRows === 1) {
             res.send("Transaction deleted"); 
         } else {
