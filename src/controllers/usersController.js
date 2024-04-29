@@ -3,8 +3,12 @@ const usersDB = require("../db/usersApp");
 async function getAllUsers(req, res) {
     
     try {
+        const totalUsers = await usersDB.getUserCount();
         const users = await usersDB.getAllUsers();
-        res.json(users);
+        res.json({
+            totalUsers,
+            users
+        });
     } catch(error) {
         res.status(500).send(error.message);
     }
@@ -47,7 +51,7 @@ async function putUser(req, res) {
             const user = await usersDB.getUserById(id);
             res.json(user);
         } else {
-            throw new Error("Oh no...");
+            throw new Error("Oh no no...");
         }
     } catch(error) {
         res.status(500).send(error.message);

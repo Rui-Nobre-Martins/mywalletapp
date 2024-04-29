@@ -20,7 +20,7 @@ async function getWalletById(req, res) {
             console.log(wallet)
             res.json(wallet);
         } else {
-            res.status(404).send("User not found");
+            res.status(404).send("Wallet not found");
         }
     } catch(error) {
         res.status(500).send(error.message);

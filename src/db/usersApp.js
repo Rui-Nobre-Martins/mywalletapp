@@ -1,5 +1,17 @@
 const connection = require("../db/appConnection");
 
+async function getUserCount() {
+
+    try{
+        const [result] = await connection.promise().query(`SELECT COUNT(*) AS totalUsers FROM users`) 
+
+        return result[0].totalUsers;
+    } catch(error) {
+        console.log(error);
+        throw new Error("Something went wrong!");
+    }
+}
+
 async function getAllUsers() {
 
     try {
@@ -64,6 +76,7 @@ async function deleteUser(id) {
 
 
 module.exports = {
+    getUserCount,
     getAllUsers,
     getUserById,
     insertUser,
