@@ -15,10 +15,10 @@ async function getAllTransactions(req, res) {
 }
 
 async function getTransactionById(req, res) {
-    const { id } = req.params;
+    const { user_id } = req.params;
 
     try{
-        const transaction = await transactionDB.getTransactionById(id);
+        const transaction = await transactionDB.getTransactionById(user_id);
         if(transaction) {
             res.json(transaction);
         } else {

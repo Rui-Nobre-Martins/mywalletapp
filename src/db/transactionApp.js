@@ -24,13 +24,13 @@ async function getAllTransactions() {
     }
 }
 
-async function getTransactionById(id) {
-    const params = [id];
+async function getTransactionById(user_id) {
+    const params = [user_id];
 
     try {
-        const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE id = ?`, params);
+        const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE user_id = ?`, params);
 
-        return result[0];
+        return result;
     } catch(error) {
         console.log(error);
         throw new Error("Something went wrong");
