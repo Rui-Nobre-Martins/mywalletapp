@@ -25,11 +25,11 @@ async function getWalletById(id) {
     }
 }
 
-async function insertWallet(currency) {
-    const params = [ currency ];
+async function insertWallet(user_id, currency) {
+    const params = [ user_id, currency ];
 
     try {
-        const [result] = await connection.promise().query(`INSERT INTO from (currency) VALUES( ? )`, params);
+        const [result] = await connection.promise().query(`INSERT INTO wallet (user_id, currency) VALUES(?, ?)`, params);
         return result;
     } catch(error) {
         console.log(error);

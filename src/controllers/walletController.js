@@ -28,10 +28,10 @@ async function getWalletById(req, res) {
 }
 
 async function postWallet(req, res) {
-    const { currency } = req.body;
+    const {user_id,  currency } = req.body;
 
     try {
-        const result = await walletDB.insertWallet( currency );
+        const result = await walletDB.insertWallet(user_id,  currency);
         const wallet = await walletDB.getWalletById(result.insertId);
         res.json(wallet);
     } catch(error) {
