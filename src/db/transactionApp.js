@@ -12,10 +12,12 @@ async function getTransactionCount() {
     }
 }
 
-async function getAllTransactions() {
+async function getAllTransactions(limit = 5, offset = 0) {
+
+    const params = [ limit, offset ];
 
     try {
-        const [result] = await connection.promise().query(`SELECT * FROM transactions`);
+        const [result] = await connection.promise().query(`SELECT * FROM transactions LIMIT ? OFFSET ?`, params);
 
         return result;
     } catch(error) {

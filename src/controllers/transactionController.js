@@ -2,12 +2,18 @@ const transactionDB = require("../db/transactionApp");
 
 async function getAllTransactions(req, res) {
 
+    let { limit = 5, offset = 0 } = req.query;
+    limit = parseInt(limit);
+    offset = parseInt(offset);
+
     try{
         const totalTransactions = await transactionDB.getTransactionCount();
-        const transaction = await transactionDB.getAllTransactions();
+        const transaction = await transactionDB.getAllTransactions(limit, offset);
         res.json({
-            totalTransactions,
-            transaction
+            next: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset+limit}`,
+            previous: null,
+            count: totalTransactions,
+            results: transaction
             });
     } catch(error) {
         res.status(500).send(error.message);
