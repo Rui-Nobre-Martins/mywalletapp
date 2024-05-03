@@ -12,10 +12,12 @@ async function getUserCount() {
     }
 }
 
-async function getAllUsers() {
+async function getAllUsers(limit = 5, offset = 0) {
+
+    const params = [ limit, offset ];
 
     try {
-        const [results] = await connection.promise().query(`SELECT * FROM users`);
+        const [results] = await connection.promise().query(`SELECT * FROM users LIMIT ? OFFSET ?`, params);
 
         return results;
     } catch(error) {

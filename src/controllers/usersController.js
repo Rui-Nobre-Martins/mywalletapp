@@ -1,13 +1,19 @@
 const usersDB = require("../db/usersApp");
 
 async function getAllUsers(req, res) {
+
+    let { limit = 5, offset = 0 } = req.query;
+    limit = parseInt(limit);
+    offset = parseInt(offset);
     
     try {
         const totalUsers = await usersDB.getUserCount();
         const users = await usersDB.getAllUsers();
         res.json({
-            totalUsers,
-            users
+            next: `http://localhost:3000/users/?limit=${limit}&offset=${offset+limit}`,
+            previous: null,
+            countAllUsers: totalUsers,
+            results: users
         });
     } catch(error) {
         res.status(500).send(error.message);

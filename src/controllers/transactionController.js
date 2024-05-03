@@ -12,7 +12,7 @@ async function getAllTransactions(req, res) {
         res.json({
             next: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset+limit}`,
             previous: null,
-            count: totalTransactions,
+            countAllTransactions: totalTransactions,
             results: transaction
             });
     } catch(error) {

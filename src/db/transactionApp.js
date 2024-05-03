@@ -30,7 +30,7 @@ async function getTransactionById(user_id) {
     const params = [user_id];
 
     try {
-        const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE user_id = ?`, params);
+        const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC`, params);
 
         return result;
     } catch(error) {
