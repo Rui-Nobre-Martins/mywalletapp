@@ -5,13 +5,14 @@ async function getAllUsers(req, res) {
     let { limit = 5, offset = 0 } = req.query;
     limit = parseInt(limit);
     offset = parseInt(offset);
+   
     
     try {
         const totalUsers = await usersDB.getUserCount();
         const users = await usersDB.getAllUsers();
         res.json({
             next: `http://localhost:3000/users/?limit=${limit}&offset=${offset+limit}`,
-            previous: null,
+            previous: `http://localhost:3000/users/?limit=${limit}&offset=${offset-limit}`,
             countAllUsers: totalUsers,
             results: users
         });
