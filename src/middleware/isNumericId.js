@@ -1,4 +1,3 @@
-
 function isNumericId(req, res, next) {
     const { id } = req.params;
     

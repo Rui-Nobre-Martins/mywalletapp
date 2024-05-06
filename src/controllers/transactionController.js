@@ -12,7 +12,7 @@ async function getAllTransactions(req, res) {
         const transaction = await transactionDB.getAllTransactions(limit, offset);
         res.json({
             next: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset+limit}`,
-            previous: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset-limit}`,
+            previous: ``,
             countAllTransactions: totalTransactions,
             results: transaction
             });
@@ -41,11 +41,9 @@ async function postTransactions(req, res) {
 
     try {
         if (!isNaN(amount)) {
-            const result = await transactionDB.insertTransaction( user_id, amount, description );
-            console.log(result);
+            const result = await transactionDB.insertTransaction( user_id, amount, description ); 
             const transaction  = await transactionDB.getTransactionById(result.insertId);
             res.json(transaction);
-            console.log(transaction);
         } else {
             throw new Error("Amount must be a number");
         }
