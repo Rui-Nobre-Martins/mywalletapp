@@ -40,9 +40,14 @@ async function postUser(req, res) {
     const { username, email, password } = req.body;
 
     try {
+        const emailIncluided = "@";
+        if (email.includes(emailIncluided)){
         const result = await usersDB.insertUser( username, email, password);
         const user = await usersDB.getUserById(result.insertId);
         res.json(user);
+        } else {
+            throw new Error("Insert a valid email");
+        }      
     } catch(error) {
         res.status(500).send(error.message);
     } 

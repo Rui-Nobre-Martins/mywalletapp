@@ -26,8 +26,21 @@ async function getAllTransactions(limit = 5, offset = 0) {
     }
 }
 
-async function getTransactionById(user_id) {
-    const params = [user_id];
+async function getTransactionById(id) {
+    const params = [ id ];
+
+    try {
+        const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE id = ?`, params);
+
+        return result[0];
+    } catch(error) {
+        console.log(error);
+        throw new Error("Something went wrong");
+    }
+}
+
+async function getAllTransactionByUserId(user_id) {
+    const params = [ user_id ];
 
     try {
         const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC`, params);
@@ -39,7 +52,7 @@ async function getTransactionById(user_id) {
     }
 }
 
-async function insertTransaction( user_id, amount, description ) {
+async function insertTransaction( user_id, amount, description) {
     const params = [ user_id, amount, description ];
 
     try {
@@ -81,6 +94,7 @@ module.exports = {
     getTransactionCount,
     getAllTransactions,
     getTransactionById,
+    getAllTransactionByUserId,
     insertTransaction,
     updatetransaction,
     deleteTransaction

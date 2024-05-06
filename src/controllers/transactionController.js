@@ -6,12 +6,13 @@ async function getAllTransactions(req, res) {
     limit = parseInt(limit);
     offset = parseInt(offset);
 
+
     try{
         const totalTransactions = await transactionDB.getTransactionCount();
         const transaction = await transactionDB.getAllTransactions(limit, offset);
         res.json({
             next: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset+limit}`,
-            previous: null,
+            previous: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset-limit}`,
             countAllTransactions: totalTransactions,
             results: transaction
             });
@@ -20,11 +21,11 @@ async function getAllTransactions(req, res) {
     }
 }
 
-async function getTransactionById(req, res) {
+async function getAllTransactionByUserId(req, res) {
     const { user_id } = req.params;
 
     try{
-        const transaction = await transactionDB.getTransactionById(user_id);
+        const transaction = await transactionDB.getAllTransactionByUserId(user_id);
         if(transaction) {
             res.json(transaction);
         } else {
@@ -39,9 +40,15 @@ async function postTransactions(req, res) {
     const { user_id, amount, description } = req.body;
 
     try {
-        const result = await transactionDB.insertTransaction( user_id, amount, description );
-        const transaction  = await transactionDB.getTransactionById(result.insertId);
-        res.json(transaction);
+        if (!isNaN(amount)) {
+            const result = await transactionDB.insertTransaction( user_id, amount, description );
+            console.log(result);
+            const transaction  = await transactionDB.getTransactionById(result.insertId);
+            res.json(transaction);
+            console.log(transaction);
+        } else {
+            throw new Error("Amount must be a number");
+        }
     } catch(error) {
         res.status(500).send(error.message);
     } 
@@ -83,7 +90,7 @@ async function deleteTransactions(req, res) {
 
 module.exports = {
     getAllTransactions,
-    getTransactionById,
+    getAllTransactionByUserId,
     postTransactions,
     putTransactions,
     deleteTransactions
