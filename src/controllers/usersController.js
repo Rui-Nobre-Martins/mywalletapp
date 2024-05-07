@@ -1,19 +1,24 @@
 const usersDB = require("../db/usersApp");
 
+const paginationService = require("../services/paginationService");
+
 async function getAllUsers(req, res) {
 
-    let { limit = 5, offset = 0 } = req.query;
-    limit = parseInt(limit);
-    offset = parseInt(offset);
+    const tableNameParam = `users`;
+
+    let { limit, offset } = req.query;
+    limit = limit && !isNaN(parseInt(limit)) ? parseInt(limit) : 5;
+    offset = offset && !isNaN(parseInt(offset)) ? parseInt(offset) : 0;
    
-    
     try {
-        const totalUsers = await usersDB.getUserCount();
+        const total = await usersDB.getUserCount();
         const users = await usersDB.getAllUsers();
+
+        const paginationUsers = paginationService.pagination(limit, offset, total ,tableNameParam);
+
         res.json({
-            next: `http://localhost:3000/users/?limit=${limit}&offset=${offset+limit}`,
-            previous: `http://localhost:3000/users/?limit=${limit}&offset=${offset-limit}`,
-            countAllUsers: totalUsers,
+            ...paginationUsers,
+            countAllUsers: total,
             results: users
         });
     } catch(error) {

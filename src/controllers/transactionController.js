@@ -1,19 +1,24 @@
 const transactionDB = require("../db/transactionApp");
 
+const paginationService = require("../services/paginationService");
+
 async function getAllTransactions(req, res) {
 
-    let { limit = 5, offset = 0 } = req.query;
-    limit = parseInt(limit);
-    offset = parseInt(offset);
+    const tableNameParam = `transactions`;
 
+    let { limit, offset } = req.query;
+    limit = limit && !isNaN(parseInt(limit)) ? parseInt(limit) : 5;
+    offset = offset && !isNaN(parseInt(offset)) ? parseInt(offset) : 0;
 
     try{
-        const totalTransactions = await transactionDB.getTransactionCount();
-        const transaction = await transactionDB.getAllTransactions(limit, offset);
+        const total = await transactionDB.getTransactionCount();
+        const transaction = await transactionDB.getAllTransactions();
+
+        const paginationTransaction = paginationService.pagination(limit, offset, total, tableNameParam);
+
         res.json({
-            next: `http://localhost:3000/transactions/?limit=${limit}&offset=${offset+limit}`,
-            previous: ``,
-            countAllTransactions: totalTransactions,
+            ...paginationTransaction,
+            countAllTransactions: total,
             results: transaction
             });
     } catch(error) {
