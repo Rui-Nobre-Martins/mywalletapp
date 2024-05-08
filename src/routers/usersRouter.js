@@ -2,6 +2,13 @@ const router = require("express").Router();
 const usersController = require("../controllers/usersController");
 const isNumericId = require("../middleware/isNumericId");
 
+const authController = require("../controllers/authController");
+const secretController = require("../controllers/secretController");
+
+
+router.post("/login", authController.loginUser);
+router.get("/secret", secretController.getSecret);
+
 
 router.get("/", usersController.getAllUsers);
 router.get("/:id", isNumericId, usersController.getUser);

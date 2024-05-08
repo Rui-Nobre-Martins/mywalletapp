@@ -1,5 +1,5 @@
 const usersDB = require("../db/usersApp");
-
+const encryptionService = require("../services/encryptionService");
 const paginationService = require("../services/paginationService");
 
 async function getAllUsers(req, res) {
@@ -45,9 +45,10 @@ async function postUser(req, res) {
     const { username, email, password } = req.body;
 
     try {
-        const emailIncluided = "@";
-        if (email.includes(emailIncluided)){
-        const result = await usersDB.insertUser( username, email, password);
+        const emailIncluded = "@";
+        if (email.includes(emailIncluded)){
+        const hash = await encryptionService.createHash(password);
+        const result = await usersDB.insertUser(username, email, hash);
         const user = await usersDB.getUserById(result.insertId);
         res.json(user);
         } else {

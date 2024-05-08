@@ -1,25 +1,45 @@
 const authDB = require("../db/authDB");
 const encryptionService = require("../services/encryptionService");
 
-async function registerUser(req, res) {
+
+async function loginUser(req, res) {
+    console.log(req.body);
     const { email, password } = req.body;
 
-    const hash = await encryptionService.createHash(password);
-    const userId = await authDB.insertUser(email, hash);
-
-    if (userId === -1) {
+    const user = await authDB.selectUser(email);
+    if (!user) {
         res.status(400).json({
-            message: "Error registering user!"
+            message: "User not found"
+        })
+        return;
+    }
+    console.log(user);
+    const result = await encryptionService.verifyHash(user.password, password);
+    if (result !== true) {
+        res.status(400).json({
+            status: "Fail",
+            message: "Wrong password"
         })
         return;
     }
 
+    const cookieData = {
+        userEmail: user.email
+    }
+    const jsonCookieData = JSON.stringify(cookieData);
+
+    res.cookie("LoggedIn", jsonCookieData, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true
+      });
+
     res.json({
-        email,
-        userId
+        status: "success",
+        message: "user Logged In"
     });
 }
 
 module.exports = {
-    registerUser,
+    loginUser
 }

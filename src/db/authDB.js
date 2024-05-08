@@ -1,23 +1,18 @@
 const connection = require("./appConnection");
 
-async function insertUser(email, password) {
 
-    const sql = `INSERT INTO users (email, password) VALUES (?, ?)`;
+async function selectUser(email) {
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    const result = await connection.promise().query(sql, [email]);
 
-    try {
-        const result = await connection.promise().query(sql, [email, password]);
-        return result[0].insertId;
-    }catch (error) {
-        console.log("Erro a inserir user no auth");
-        return -1;
+    const rows = result[0];
+    if (rows.length === 1) {
+        return rows[0];
+    } else {
+        return undefined;
     }
 }
 
-
-
-
-
-
 module.exports = {
-    insertUser,
+    selectUser
 }
