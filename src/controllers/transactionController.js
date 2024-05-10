@@ -26,16 +26,51 @@ async function getAllTransactions(req, res) {
     }
 }
 
+// async function getAllTransactionByUserId(req, res) {
+//     const { user_id } = req.params;
+
+//     try{
+//         const transaction = await transactionDB.getAllTransactionByUserId(user_id);
+//         if(transaction) {  
+//         res.json(transaction);
+//         } else {
+//             res.status(404).send("Transaction not found");
+//         }
+//     } catch(error) {
+//         res.status(500).send(error.message);
+//     }
+// }
+
 async function getAllTransactionByUserId(req, res) {
     const { user_id } = req.params;
 
     try{
-        const transaction = await transactionDB.getAllTransactionByUserId(user_id);
-        if(transaction) {
-            res.json(transaction);
-        } else {
-            res.status(404).send("Transaction not found");
+        const transactions = await transactionDB.getAllTransactionByUserId(user_id);
+        if(!transactions || transactions.length === 0) {  
+            return res.status(404).send("Transaction not found");
         }
+
+        let totalCredit = 0;
+        let totalDebit = 0;
+
+        transactions.forEach(transactions => {
+            if(transactions.type === `positive`) {
+                totalCredit += transactions.amount;
+            } else if (transactions.type === 'negative') {
+                totalDebit -= transactions.amount;  
+            } else ( transactions.amount <= 0)
+                throw new Error("🥶 go to work");
+            ; 
+        });
+
+        let totalBalance = Math.abs(totalCredit - totalDebit) * 1;
+
+        const result = {
+            ...transactions,
+            totalBalance
+        };
+
+        res.json(result);
     } catch(error) {
         res.status(500).send(error.message);
     }
@@ -46,9 +81,12 @@ async function postTransactions(req, res) {
 
     try {
         if (!isNaN(amount)) {
-            const result = await transactionDB.insertTransaction( user_id, amount, description ); 
+            
+            const result = await transactionDB.insertTransaction( user_id, amount, description );
+             console.log(result)
             const transaction  = await transactionDB.getTransactionById(result.insertId);
             res.json(transaction);
+            console.log(transaction);
         } else {
             throw new Error("Amount must be a number");
         }
