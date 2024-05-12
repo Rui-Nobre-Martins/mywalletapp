@@ -54,16 +54,13 @@ async function getAllTransactionByUserId(req, res) {
         let totalDebit = 0;
 
         transactions.forEach(transactions => {
-            if(transactions.type === `positive`) {
+            if(transactions.type === 'positive') {
                 totalCredit += transactions.amount;
-            } else if (transactions.type === 'negative') {
-                totalDebit -= transactions.amount;  
-            } else ( transactions.amount <= 0)
-                throw new Error("🥶 go to work");
-            ; 
+            } else (transactions.type === 'negative')
+                totalDebit -= transactions.amount; 
         });
 
-        let totalBalance = Math.abs(totalCredit - totalDebit) * 1;
+        let totalBalance = totalCredit - totalDebit;
 
         const result = {
             ...transactions,
