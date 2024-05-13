@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const transactionController = require("../controllers/transactionController");
 const isNumericId = require("../middleware/isNumericId");
+const secretController = require("../controllers/secretController");
+
+router.get("/secret", secretController.getSecret);
 
 
 router.get("/", transactionController.getAllTransactions);

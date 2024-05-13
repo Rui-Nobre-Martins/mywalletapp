@@ -1,6 +1,6 @@
 const transactionDB = require("../db/transactionApp");
-
 const paginationService = require("../services/paginationService");
+
 
 async function getAllTransactions(req, res) {
 
@@ -25,21 +25,6 @@ async function getAllTransactions(req, res) {
         res.status(500).send(error.message);
     }
 }
-
-// async function getAllTransactionByUserId(req, res) {
-//     const { user_id } = req.params;
-
-//     try{
-//         const transaction = await transactionDB.getAllTransactionByUserId(user_id);
-//         if(transaction) {  
-//         res.json(transaction);
-//         } else {
-//             res.status(404).send("Transaction not found");
-//         }
-//     } catch(error) {
-//         res.status(500).send(error.message);
-//     }
-// }
 
 async function getAllTransactionByUserId(req, res) {
     const { user_id } = req.params;
