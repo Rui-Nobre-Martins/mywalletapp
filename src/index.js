@@ -11,9 +11,13 @@ const transactionRouter = require("./routers/transactionRouter");
 
 const app = express();
 const port = process.env.PORT || 3000;
+const corsOptions = {
+    origin: "http://localhost:5173",
+    credentials: true
+ };
 
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
