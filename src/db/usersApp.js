@@ -12,7 +12,7 @@ async function getUserCount() {
     }
 }
 
-async function getAllUsers(limit = 5, offset = 0) {
+async function getAllUsers(limit, offset) {
 
     const params = [ limit, offset ];
 

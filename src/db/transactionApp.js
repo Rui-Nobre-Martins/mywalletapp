@@ -44,7 +44,7 @@ async function getAllTransactionByUserId(user_id) {
 
     try {
         const [result] = await connection.promise().query(`SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC`, params);
-
+        console.log("baseDados", result)
         return result;
     } catch(error) {
         console.log(error);

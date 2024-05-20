@@ -12,7 +12,7 @@ async function getAllUsers(req, res) {
    
     try {
         const total = await usersDB.getUserCount();
-        const users = await usersDB.getAllUsers();
+        const users = await usersDB.getAllUsers(limit, offset);
 
         const paginationUsers = paginationService.pagination(limit, offset, total ,tableNameParam);
 

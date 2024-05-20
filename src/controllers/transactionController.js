@@ -48,8 +48,8 @@ async function getAllTransactionByUserId(req, res) {
         let totalBalance = totalCredit - totalDebit;
 
         const result = {
-            ...transactions,
-            totalBalance
+            totalBalance,
+            transactions
         };
 
         res.json(result);
@@ -87,7 +87,7 @@ async function putTransactions(req, res) {
             const putTransactions = await transactionDB.getTransactionById(id);
             res.json(putTransactions);
         } else {
-            throw new Error("Oh no, go to work and make money!!!");
+            throw new Error("Oh no, error to updated!!!");
         }
     } catch(error) {
         res.status(500).send(error.message);
