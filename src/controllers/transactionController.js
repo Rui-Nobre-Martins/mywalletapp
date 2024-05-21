@@ -59,16 +59,16 @@ async function getAllTransactionByUserId(req, res) {
 }
 
 async function postTransactions(req, res) {
-    const { user_id, amount, description } = req.body;
+    const { user_id} = req.params
+    const { amount, description } = req.body;
 
     try {
         if (!isNaN(amount)) {
-            
             const result = await transactionDB.insertTransaction( user_id, amount, description );
-             console.log(result)
-            const transaction  = await transactionDB.getTransactionById(result.insertId);
-            res.json(transaction);
-            console.log(transaction);
+            console.log(result)
+            const AddTransaction  = await transactionDB.getTransactionById(result.insertId);
+            res.json(AddTransaction);
+            console.log(AddTransaction);
         } else {
             throw new Error("Amount must be a number");
         }
@@ -76,6 +76,7 @@ async function postTransactions(req, res) {
         res.status(500).send(error.message);
     } 
 }
+
 
 async function putTransactions(req, res) {
     const { id } = req.params;

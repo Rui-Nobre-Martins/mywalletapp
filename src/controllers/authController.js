@@ -4,6 +4,7 @@ const encryptionService = require("../services/encryptionService");
 
 async function loginUser(req, res) {
     console.log(req.body);
+    console.log("ola");
     const { email, password } = req.body;
 
     const user = await authDB.selectUser(email);
@@ -14,6 +15,7 @@ async function loginUser(req, res) {
         return;
     }
     console.log(user);
+
     const result = await encryptionService.verifyHash(user.password, password);
     if (result !== true) {
         res.status(400).json({
@@ -25,7 +27,7 @@ async function loginUser(req, res) {
 
     const cookieData = {
         userEmail: user.email,
-        userId: user.user_id
+        user: user.id
     }
     const jsonCookieData = JSON.stringify(cookieData);
 
@@ -37,7 +39,8 @@ async function loginUser(req, res) {
 
     res.json({
         status: "success",
-        message: "user Logged In"
+        message: "user Logged In",
+        user: user.id
     });
 }
 

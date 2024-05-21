@@ -52,11 +52,11 @@ async function getAllTransactionByUserId(user_id) {
     }
 }
 
-async function insertTransaction( user_id, amount, description) {
+async function insertTransaction(user_id, amount, description) {
     const params = [ user_id, amount, description ];
 
     try {
-        const [result] = await connection.promise().query(`INSERT INTO transactions (user_id, amount, description) VALUES(?, ?, ?)`, params);
+        const [result] = await connection.promise().query(`INSERT INTO transactions (user_id, amount, description) VALUES(? , ?, ?)`, params);
         return result;
     } catch(error) {
         console.log(error);

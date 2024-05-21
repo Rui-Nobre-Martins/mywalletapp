@@ -1,6 +1,5 @@
 # My Wallet App - Back-End
 
-
 #Endpoints 
 
 This app uses the following and methods:
