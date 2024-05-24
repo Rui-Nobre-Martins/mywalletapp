@@ -7,6 +7,7 @@ const secretController = require("../controllers/secretController");
 
 
 router.post("/login", authController.loginUser);
+router.get("/logout", authController.logOutUser);
 router.get("/secret", secretController.getSecret);
 
 

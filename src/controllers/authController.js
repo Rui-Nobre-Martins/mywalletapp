@@ -4,7 +4,6 @@ const encryptionService = require("../services/encryptionService");
 
 async function loginUser(req, res) {
     console.log(req.body);
-    console.log("ola");
     const { email, password } = req.body;
 
     const user = await authDB.selectUser(email);
@@ -38,12 +37,27 @@ async function loginUser(req, res) {
       });
 
     res.json({
-        status: "success",
-        message: "user Logged In",
+        status: "Success",
+        message: "User Logged In",
         user: user.id
     });
 }
 
+async function logOutUser(req, res) {
+    res.clearCookie("LoggedIn", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true
+    });
+
+    res.status(200).json({
+        status: "Success",
+        message: "Logout successful"
+    });
+    console.log(logOutUser);
+}
+
 module.exports = {
-    loginUser
+    loginUser,
+    logOutUser
 }
