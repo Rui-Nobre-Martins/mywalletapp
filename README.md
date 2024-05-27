@@ -5,7 +5,6 @@
 This app uses the following and methods:
 
 # Users Table
-
 [`POST /login`](#login)
 [`GET /users`](#get-all-users)  
 [`GET /users/:id`](#get-users-by-id)
@@ -14,11 +13,9 @@ This app uses the following and methods:
 [`DELETE /users/:id`](#delete-users-by-id) 
 
 ### Request 
-
 `POST /login`
 
 Example POST body:
-
 ```
 {
 	"email": "ruitest@gmail.com",
@@ -27,11 +24,9 @@ Example POST body:
 ```
 
 ### Request
-
 `GET /users`
 
 ### Response
-
 ```
 {
 	"firstPage": null,
@@ -84,8 +79,10 @@ Example POST body:
 }
 ```
 
+### Request
 `GET /users/:id`
 
+### Response
 ```
 	{
 	"id": 29,
@@ -96,9 +93,7 @@ Example POST body:
 ```
 
 ### Request
-
 `POST /users`
-
 ```
 {
 	"id": "",
@@ -108,8 +103,8 @@ Example POST body:
 }
 ```
 
+### Request
 `PUT /users/:id`
-
 ```
 {
 	"username": "rui",
@@ -118,8 +113,8 @@ Example POST body:
 }
 ```
 
+### Request
 `DELETE /users/:id`
-
 ```
 {
 	"username": "rui",
@@ -130,7 +125,6 @@ Example POST body:
 
 
 # Transactions Table
-
 [`GET /transactions`](#get-all-transactions)  
 [`GET /transactions/:user_id`](#get-transactions-by-id)
 [`POST /transactions`](#add-transactions)
@@ -139,7 +133,6 @@ Example POST body:
 
 
 ### Request
-
 `GET /transactions`
 
 ### Response
@@ -196,11 +189,9 @@ Example POST body:
 ```
 
 ### Request
-
 `GET /transactions/:id`
 
 ### Response
-
 ```
 {
 	"totalBalance": -6,
@@ -242,7 +233,6 @@ Example POST body:
 ```
 
 ### Request
-
 `POST /transactions`
 
 ```
@@ -254,7 +244,6 @@ Example POST body:
 ```
 
 ### Request 
-
 `PUT /transactions/:id`
 
 ```
@@ -265,7 +254,6 @@ Example POST body:
 ```
 
 ### Request 
-
 `DELETE /transactions/:id`
 
 ```
