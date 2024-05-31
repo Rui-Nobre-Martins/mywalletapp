@@ -101,7 +101,7 @@ async function deleteTransactions(req, res) {
     try {
         const result = await transactionDB.deleteTransaction(id);
         if (result.affectedRows === 1) {
-            res.send("Transaction deleted"); 
+            res.send("Transaction deleted");
         } else {
             res.status(404).send("Transaction not found");
         }
