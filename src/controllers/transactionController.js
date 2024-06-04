@@ -59,7 +59,7 @@ async function getAllTransactionByUserId(req, res) {
 }
 
 async function postTransactions(req, res) {
-    const { user_id} = req.params
+    const { user_id } = req.params
     const { amount, description } = req.body;
 
     try {
